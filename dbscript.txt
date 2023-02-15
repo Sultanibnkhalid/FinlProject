@@ -1,0 +1,248 @@
+USE [master]
+GO
+/****** Object:  Database [libsystem]    Script Date: 2/15/2023 4:37:13 PM ******/
+CREATE DATABASE [libsystem]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'libsystem', FILENAME = N'C:\Program Files (x86)\Microsoft SQL Server\MSSQL12.AHMED_ALSHARAFI\MSSQL\DATA\libsystem.mdf' , SIZE = 3072KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'libsystem_log', FILENAME = N'C:\Program Files (x86)\Microsoft SQL Server\MSSQL12.AHMED_ALSHARAFI\MSSQL\DATA\libsystem_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+ALTER DATABASE [libsystem] SET COMPATIBILITY_LEVEL = 120
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [libsystem].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [libsystem] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [libsystem] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [libsystem] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [libsystem] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [libsystem] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [libsystem] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [libsystem] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [libsystem] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [libsystem] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [libsystem] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [libsystem] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [libsystem] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [libsystem] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [libsystem] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [libsystem] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [libsystem] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [libsystem] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [libsystem] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [libsystem] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [libsystem] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [libsystem] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [libsystem] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [libsystem] SET RECOVERY FULL 
+GO
+ALTER DATABASE [libsystem] SET  MULTI_USER 
+GO
+ALTER DATABASE [libsystem] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [libsystem] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [libsystem] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [libsystem] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+ALTER DATABASE [libsystem] SET DELAYED_DURABILITY = DISABLED 
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'libsystem', N'ON'
+GO
+USE [libsystem]
+GO
+/****** Object:  Table [dbo].[admin]    Script Date: 2/15/2023 4:37:13 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[admin](
+	[id] [int] NOT NULL,
+	[username] [varchar](30) NOT NULL,
+	[password] [varchar](60) NOT NULL,
+	[firstname] [varchar](30) NOT NULL,
+	[lastname] [varchar](30) NOT NULL,
+	[photo] [varchar](200) NOT NULL,
+	[created_on] [date] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[books]    Script Date: 2/15/2023 4:37:13 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[books](
+	[id] [int] NOT NULL,
+	[isbn] [varchar](20) NOT NULL,
+	[category_id] [int] NULL,
+	[title] [text] NOT NULL,
+	[author] [varchar](150) NOT NULL,
+	[publisher] [varchar](150) NOT NULL,
+	[publish_date] [date] NOT NULL,
+	[status] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[borrow]    Script Date: 2/15/2023 4:37:13 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[borrow](
+	[id] [int] NOT NULL,
+	[student_id] [int] NULL,
+	[book_id] [int] NULL,
+	[date_borrow] [date] NOT NULL,
+	[status] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[category]    Script Date: 2/15/2023 4:37:13 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[category](
+	[id] [int] NOT NULL,
+	[name] [varchar](100) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Course]    Script Date: 2/15/2023 4:37:13 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Course](
+	[id] [int] NOT NULL,
+	[title] [text] NOT NULL,
+	[code] [varchar](15) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[returns]    Script Date: 2/15/2023 4:37:13 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[returns](
+	[id] [int] NOT NULL,
+	[student_id] [int] NULL,
+	[book_id] [int] NULL,
+	[date_return] [date] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Students]    Script Date: 2/15/2023 4:37:13 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Students](
+	[id] [int] NOT NULL,
+	[student_id] [varchar](15) NOT NULL,
+	[firstname] [varchar](50) NOT NULL,
+	[lastname] [varchar](50) NOT NULL,
+	[photo] [varchar](200) NOT NULL,
+	[course_id] [int] NULL,
+	[created_on] [date] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+ALTER TABLE [dbo].[books]  WITH CHECK ADD FOREIGN KEY([category_id])
+REFERENCES [dbo].[category] ([id])
+GO
+ALTER TABLE [dbo].[borrow]  WITH CHECK ADD FOREIGN KEY([book_id])
+REFERENCES [dbo].[books] ([id])
+GO
+ALTER TABLE [dbo].[borrow]  WITH CHECK ADD FOREIGN KEY([student_id])
+REFERENCES [dbo].[Students] ([id])
+GO
+ALTER TABLE [dbo].[returns]  WITH CHECK ADD FOREIGN KEY([book_id])
+REFERENCES [dbo].[books] ([id])
+GO
+ALTER TABLE [dbo].[returns]  WITH CHECK ADD FOREIGN KEY([student_id])
+REFERENCES [dbo].[Students] ([id])
+GO
+ALTER TABLE [dbo].[Students]  WITH CHECK ADD FOREIGN KEY([course_id])
+REFERENCES [dbo].[Course] ([id])
+GO
+USE [master]
+GO
+ALTER DATABASE [libsystem] SET  READ_WRITE 
+GO
